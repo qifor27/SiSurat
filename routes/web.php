@@ -28,10 +28,10 @@ Route::middleware(['auth', 'verified', 'role:wakil_rektor'])->prefix('warek')->n
     Route::get('/surat-masuk', [\App\Http\Controllers\WakilRektor\SuratMasukController::class,'index'])
         ->name('surat-masuk.index');
 
-    Route::get('/surat-masuk/{suratMasuk}/show',[\App\Http\Controllers\WakilRektor\SuratMasukController::class,'show'])
+    Route::get('/surat-masuk/{suratMasuk}',[\App\Http\Controllers\WakilRektor\SuratMasukController::class,'show'])
         ->name('surat-masuk.show');
 
-    Route::patch('/surat-masuk/{suratMasuk}/teruskan',[\App\Http\Controllers\WakilRektor\SuratMasukController::class,'show'])
+    Route::patch('/surat-masuk/{suratMasuk}/teruskan',[\App\Http\Controllers\WakilRektor\SuratMasukController::class,'teruskan'])
         ->name('surat-masuk.teruskan');
 
     Route::patch('/surat-masuk/{suratMasuk}/kembalikan',[\App\Http\Controllers\WakilRektor\SuratMasukController::class,'kembalikan'])

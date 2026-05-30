@@ -72,7 +72,7 @@ public function kembalikan(Request $request, SuratMasuk $suratMasuk)
     }
 
     // Validasi catata wajib diisi minimal 10 karakter
-    $request->validasi([
+    $request->validate([
         'catatan_warek' => 'required|string|min:10',
 
     ],[
