@@ -24,6 +24,19 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('ad
 
 Route::middleware(['auth', 'verified', 'role:wakil_rektor'])->prefix('warek')->name('warek.')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\WakilRektor\DashboardController::class, 'index'])->name('dashboard');
+
+    Route::get('/surat-masuk', [\App\Http\Controllers\WakilRektor\SuratMasukController::class,'index'])
+        ->name('surat-masuk.index');
+
+    Route::get('/surat-masuk/{suratMasuk}/show',[\App\Http\Controllers\WakilRektor\SuratMasukController::class,'show'])
+        ->name('surat-masuk.show');
+
+    Route::patch('/surat-masuk/{suratMasuk}/teruskan',[\App\Http\Controllers\WakilRektor\SuratMasukController::class,'show'])
+        ->name('surat-masuk.teruskan');
+
+    Route::patch('/surat-masuk/{suratMasuk}/kembalikan',[\App\Http\Controllers\WakilRektor\SuratMasukController::class,'kembalikan'])
+        ->name('surat-masuk.kembalikan');
+    
 });
 
 Route::middleware(['auth', 'verified', 'role:rektor'])->prefix('rektor')->name('rektor.')->group(function () {
