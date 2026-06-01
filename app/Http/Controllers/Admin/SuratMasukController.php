@@ -103,7 +103,7 @@ class SuratMasukController extends Controller
     public function edit(SuratMasuk $suratMasuk)
     {
         // Cegah edit jika surat sudah diajukan
-        if ($suratMasuk->status !== 'draft') {
+        if (!in_array($suratMasuk->status,['draft','dikembalikan'])) {
             abort(403, 'Surat yang sudah diajukan tidak dapat diedit');
         }
 
@@ -121,7 +121,7 @@ class SuratMasukController extends Controller
     public function update(UpdateSuratMasukRequest $request, SuratMasuk $suratMasuk)
     {
         // Cegah update jika sudah diajukan
-        if ($suratMasuk->status !== 'draft') {
+        if (!in_array($suratMasuk->status,['draft','dikembalikan'])) {
             abort(403, 'Surat yang sudah diajukan tidak dapat diedit');
         }
         $validated = $request->validated();
@@ -153,7 +153,7 @@ class SuratMasukController extends Controller
     public function ajukan(SuratMasuk $suratMasuk)
     {
         // hanya surat draft yang boleh diajukan
-        if ($suratMasuk->status !== 'draft') {
+        if (!in_array($suratMasuk->status,['draft','dikembalikan'])) {
             abort(403, 'Hanya surat berstatus draft yang dapat diajukan');
         }
 

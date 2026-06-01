@@ -47,6 +47,29 @@
                             <h3 class="text-lg font-semibold text-gray-800">Informasi Surat</h3>
                         </div>
 
+                        @if($suratMasuk->catatan_warek)
+                           <div class="bg-amber-50 border border-amber-200 rounded-xl p-6 shadow-sm">
+        <h3 class="text-base font-semibold text-amber-800 mb-2 flex items-center gap-2">
+            💬 Catatan Wakil Rektor
+        </h3>
+        <p class="text-gray-800 whitespace-pre-line text-sm">{{ $suratMasuk->catatan_warek }}</p>
+    </div>
+@endif
+{{-- Tombol Ajukan ke Warek (hanya tampil jika status draft atau dikembalikan) --}}
+@if(in_array($suratMasuk->status, ['draft', 'dikembalikan']))
+    <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+        <form method="POST" action="{{ route('admin.surat-masuk.ajukan', $suratMasuk) }}"
+              onsubmit="return confirm('Ajukan surat ini ke Wakil Rektor untuk di-review?');">
+            @csrf
+            @method('PATCH')
+            <button type="submit"
+                    class="w-full bg-[#0F4C81] hover:bg-[#0A3A6B] text-white font-medium px-4 py-3 rounded-lg transition-colors text-sm flex items-center justify-center gap-2">
+                🚀 Ajukan ke Wakil Rektor
+            </button>
+        </form>
+    </div>
+@endif
+
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-4">
                             {{-- Field --}}
                             <div>
