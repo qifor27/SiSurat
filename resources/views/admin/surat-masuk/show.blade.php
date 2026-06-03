@@ -69,6 +69,17 @@
         </form>
     </div>
 @endif
+{{-- Catatan Rektor (tampil jika ada) --}}
+@if($suratMasuk->catatan_rektor)
+    <div class="bg-purple-50 border border-purple-200 rounded-xl p-6 shadow-sm">
+        <h3 class="text-base font-semibold text-purple-800 mb-2 flex items-center gap-2">
+            🏛️ Catatan Rektor
+        </h3>
+        <p class="text-gray-800 whitespace-pre-line text-sm">{{ $suratMasuk->catatan_rektor }}</p>
+    </div>
+@endif
+
+
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-4">
                             {{-- Field --}}

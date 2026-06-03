@@ -43,13 +43,13 @@ Route::middleware(['auth', 'verified', 'role:rektor'])->prefix('rektor')->name('
     Route::get('/dashboard', [App\Http\Controllers\Rektor\DashboardController::class, 'index'])->name('dashboard');
     Route::get('/surat-masuk',[\App\Http\Controllers\Rektor\SuratMasukController::class,'index'])
       ->name('surat-masuk.index');
-    Route::get('/surat-masuk/{suratMasuk}',[\App\Http\Controllers\Rektor\SuratMasukController::class,'approve'])
+    Route::get('/surat-masuk/{suratMasuk}',[\App\Http\Controllers\Rektor\SuratMasukController::class,'show'])
       ->name('surat-masuk.show');
     Route::patch('/surat-masuk/{suratMasuk}/approve', [\App\Http\Controllers\Rektor\SuratMasukController::class,'approve'])
       ->name('surat-masuk.approve');
     Route::patch('/surat-masuk/{suratMasuk}/kembalikan',[\App\Http\Controllers\Rektor\SuratMasukController::class,'kembalikan'])
       ->name('surat-masuk.kembalikan');
-    Route::post('/surat-masuk{suratMasuk}/disposisi',[\App\Http\Controllers\Rektor\SuratMasukController::class,'storeDisposisi'])
+    Route::post('/surat-masuk/{suratMasuk}/disposisi',[\App\Http\Controllers\Rektor\SuratMasukController::class,'storeDisposisi'])
       ->name('disposisi.store');
     
 });

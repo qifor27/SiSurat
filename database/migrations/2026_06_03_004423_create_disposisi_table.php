@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('surat_masuk_id')->constrained('surat_masuk')->cascadeOnDelete();
             $table->foreignId('dibuat_oleh')->constrained('users')->cascadeOnDelete();
-            $table->text('intruksi');
+            $table->text('instruksi');
             $table->text('catatan')->nullable();
             $table->timestamps();
         });

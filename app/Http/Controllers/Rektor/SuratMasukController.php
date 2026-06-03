@@ -100,27 +100,27 @@ public function storeDisposisi(Request $request,SuratMasuk $suratMasuk)
     }
 
     $request->validate([
-        'intruksi' => 'required|string|min:10',
+        'instruksi' => 'required|string|min:10',
         'bagian_ids' => 'required|array|min:1',
         'bagian_ids.*' => 'exists:bagian,id',
         'catatan' => 'nullable|string',
 
     ],[
 
-        'intruksi.required' => 'Intruksi disposisi wajib diisi.',
-        'intruksi.min' => 'Intruksi minimal 10 karakter.',
+        'instruksi.required' => 'Instruksi disposisi wajib diisi.',
+        'instruksi.min' => 'Instruksi minimal 10 karakter.',
         'bagian_ids.required' => 'Pilih minimal satu bagian terkait.',
     ]);
 
     $disposisi = Disposisi::create([
         'surat_masuk_id' => $suratMasuk->id,
         'dibuat_oleh' => auth()->id(),
-        'intruksi' => $request->input('intruksi'),
+        'instruksi' => $request->input('instruksi'),
         'catatan' => $request->input('catatan'),
     ]);
 
     // Attach bagian-bagian yang dipilih ke tabel pivot
-    $disposisi->bagian()->attach($request->input('bagian_ids'));
+    $disposisi->bagians()->attach($request->input('bagian_ids'));
 
     return redirect()
           ->route('rektor.surat-masuk.show',$suratMasuk)

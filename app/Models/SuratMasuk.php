@@ -57,6 +57,11 @@ class SuratMasuk extends Model
         return $query->where('status','menunggu_rektor');
     }
 
+    public function disposisis()
+    {
+        return $this->hasMany(Disposisi::class);
+    }
+
     
 
     

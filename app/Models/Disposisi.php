@@ -11,7 +11,7 @@ class Disposisi extends Model
     protected $fillable = [
         'surat_masuk_id',
         'dibuat_oleh',
-        'intruksi',
+        'instruksi',
         'catatan',
     ];
 
