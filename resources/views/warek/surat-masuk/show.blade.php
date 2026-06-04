@@ -1,154 +1,167 @@
 <x-app-layout>
-    <div class="min-h-screen bg-[#F5F7FA] py-8">
+    <div class="py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             {{-- Breadcrumb --}}
-            <nav class="text-sm text-gray-500 mb-4">
-                <a href="{{ route('warek.surat-masuk.index') }}" class="hover:text-blue-600">Surat Menunggu Review</a>
-                <span class="mx-2">›</span>
-                <span class="text-gray-800 font-medium">Detail Surat</span>
+            <nav class="flex items-center text-[13px] text-[#64748B] mb-4 font-medium">
+                <a href="{{ route('warek.surat-masuk.index') }}" class="hover:text-[#4338CA] transition-colors">Review Surat</a>
+                <i data-lucide="chevron-right" class="w-4 h-4 mx-1"></i>
+                <span class="text-[#0F172A]">{{ $suratMasuk->nomor_surat }}</span>
             </nav>
 
-            {{-- Page Header --}}
-            <div class="mb-6 flex items-center justify-between">
-                <div>
-                    <h1 class="text-2xl font-bold text-gray-900">Review Surat Masuk</h1>
-                    <p class="text-sm text-gray-500 mt-1">No. Agenda: <span class="font-mono text-gray-700 font-medium">{{ $suratMasuk->nomor_agenda }}</span></p>
+            {{-- Header & Actions --}}
+            <div class="mb-6 flex flex-col md:flex-row md:items-start justify-between gap-4">
+                <div class="flex-1">
+                    <div class="flex items-center gap-3 mb-2">
+                        <h1 class="text-2xl font-bold text-[#0F172A] leading-tight">{{ $suratMasuk->perihal }}</h1>
+                        @if($suratMasuk->is_rahasia)
+                            <span class="text-[10px] font-bold text-[#EF4444] bg-[#FEE2E2] px-2 py-0.5 rounded tracking-wider shrink-0 mt-1">RAHASIA</span>
+                        @endif
+                    </div>
+                    <p class="text-[14px] text-[#64748B]">Dari: <span class="font-medium text-[#0F172A]">{{ $suratMasuk->asal_surat }}</span></p>
                 </div>
-                <a href="{{ route('warek.surat-masuk.index') }}"
-                   class="border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium px-4 py-2 rounded-lg transition-colors text-sm">
-                    ⬅️ Kembali
-                </a>
+                <div class="shrink-0">
+                    <a href="{{ route('warek.surat-masuk.index') }}" class="btn-secondary">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali
+                    </a>
+                </div>
             </div>
 
             {{-- Layout 2 Kolom --}}
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-                {{-- ========== KOLOM KIRI (Detail Surat — Read-only) ========== --}}
+                {{-- KOLOM KIRI (Informasi Utama) --}}
                 <div class="lg:col-span-2 space-y-6">
 
-                    {{-- Card: Informasi Surat (sama seperti show Admin) --}}
-                    <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-                        <div class="border-b border-gray-100 pb-4 mb-4">
-                            <h3 class="text-lg font-semibold text-gray-800">Informasi Surat</h3>
-                        </div>
+                    {{-- Informasi Surat --}}
+                    <div class="card-enterprise-lg p-6 sm:p-8">
+                        <h3 class="text-base font-bold text-[#0F172A] mb-6 flex items-center gap-2 border-b border-[#F1F5F9] pb-4">
+                            <i data-lucide="file-text" class="w-5 h-5 text-[#4338CA]"></i> Detail Informasi Surat
+                        </h3>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div>
-                                <p class="text-xs text-gray-500 uppercase font-medium mb-1">Nomor Surat</p>
-                                <p class="text-gray-900 font-medium">{{ $suratMasuk->nomor_surat }}</p>
+                                <p class="text-[11px] font-bold text-[#94A3B8] uppercase tracking-wider mb-1">Nomor Surat</p>
+                                <p class="text-[14px] font-medium text-[#0F172A]">{{ $suratMasuk->nomor_surat }}</p>
                             </div>
                             <div>
-                                <p class="text-xs text-gray-500 uppercase font-medium mb-1">Jenis Surat</p>
-                                <p class="text-gray-900 font-medium">{{ $suratMasuk->jenis_surat }}</p>
+                                <p class="text-[11px] font-bold text-[#94A3B8] uppercase tracking-wider mb-1">Tanggal Surat</p>
+                                <p class="text-[14px] font-medium text-[#0F172A]">{{ $suratMasuk->tanggal_surat->translatedFormat('d F Y') }}</p>
+                            </div>
+                            
+                            <div>
+                                <p class="text-[11px] font-bold text-[#94A3B8] uppercase tracking-wider mb-1">Jenis Surat</p>
+                                <p class="text-[14px] font-medium text-[#0F172A]">{{ $suratMasuk->jenis_surat }}</p>
                             </div>
                             <div>
-                                <p class="text-xs text-gray-500 uppercase font-medium mb-1">Asal Surat</p>
-                                <p class="text-gray-900 font-medium">{{ $suratMasuk->asal_surat }}</p>
+                                <p class="text-[11px] font-bold text-[#94A3B8] uppercase tracking-wider mb-1">Tingkat Urgensi</p>
+                                <div class="mt-1">
+                                    <x-badge :type="$suratMasuk->tingkat_urgensi" />
+                                </div>
                             </div>
-                            <div>
-                                <p class="text-xs text-gray-500 uppercase font-medium mb-1">Tanggal Surat</p>
-                                <p class="text-gray-900 font-medium">{{ $suratMasuk->tanggal_surat->format('d F Y') }}</p>
-                            </div>
-                            <div class="md:col-span-2">
-                                <p class="text-xs text-gray-500 uppercase font-medium mb-1">Perihal</p>
-                                <p class="text-gray-900 bg-gray-50 p-4 rounded-lg border border-gray-100 mt-1 whitespace-pre-line">{{ $suratMasuk->perihal }}</p>
+
+                            <div class="sm:col-span-2">
+                                <p class="text-[11px] font-bold text-[#94A3B8] uppercase tracking-wider mb-1">Isi / Perihal</p>
+                                <div class="bg-[#F8FAFC] p-4 rounded-xl border border-[#E2E8F0] mt-1">
+                                    <p class="text-[14px] text-[#334155] leading-relaxed whitespace-pre-wrap">{{ $suratMasuk->perihal }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    {{-- Card: Dokumen Lampiran --}}
-                    @if($suratMasuk->file_path)
-                        <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-                            <h3 class="text-base font-semibold text-gray-800 mb-4">📎 Dokumen Lampiran</h3>
-                            <div class="flex items-center gap-3 bg-blue-50/50 p-4 rounded-lg border border-blue-100">
-                                <div class="text-2xl">📄</div>
-                                <div class="flex-1">
-                                    <p class="text-sm font-medium text-gray-900">Dokumen Surat</p>
-                                    <p class="text-xs text-gray-500">Tersedia</p>
+                    {{-- Form Tindakan Warek --}}
+                    @if($suratMasuk->status === 'menunggu_warek')
+                        <div class="card-enterprise-lg p-6 sm:p-8 bg-white border-2 border-[#4338CA]/20 shadow-lg shadow-[#4338CA]/5">
+                            <h3 class="text-base font-bold text-[#0F172A] mb-6 flex items-center gap-2 border-b border-[#F1F5F9] pb-4">
+                                <i data-lucide="edit-3" class="w-5 h-5 text-[#4338CA]"></i> Tindakan Wakil Rektor
+                            </h3>
+
+                            <form method="POST">
+                                @csrf
+                                @method('PATCH')
+                                
+                                <div class="mb-6">
+                                    <label class="block text-[13px] font-semibold text-[#0F172A] mb-2">
+                                        Catatan / Instruksi (Opsional)
+                                    </label>
+                                    <textarea name="catatan_warek" rows="4" 
+                                              class="w-full border border-[#CBD5E1] rounded-xl px-4 py-3 text-[14px] text-[#0F172A] focus:outline-none focus:border-[#4338CA] focus:ring-4 focus:ring-[#4338CA]/10 transition-all font-sans resize-y"
+                                              placeholder="Berikan catatan tambahan untuk Rektor jika surat disetujui, atau alasan revisi jika dikembalikan...">{{ old('catatan_warek') }}</textarea>
                                 </div>
-                                <a href="{{ asset('storage/' . $suratMasuk->file_path) }}" target="_blank"
-                                   class="bg-white border border-blue-200 text-blue-700 hover:bg-blue-600 hover:text-white px-3 py-1.5 rounded text-xs font-medium transition-colors">
-                                    Lihat File
-                                </a>
-                            </div>
+
+                                <div class="flex flex-col sm:flex-row gap-3">
+                                    <button type="submit" formaction="{{ route('warek.surat-masuk.teruskan', $suratMasuk) }}" 
+                                            class="flex-1 btn-primary bg-[#10B981] hover:bg-[#059669]">
+                                        <i data-lucide="check-circle" class="w-4 h-4"></i> Teruskan ke Rektor
+                                    </button>
+                                    <button type="submit" formaction="{{ route('warek.surat-masuk.kembalikan', $suratMasuk) }}" 
+                                            class="flex-1 btn-secondary text-[#EF4444] hover:bg-[#FEE2E2] hover:border-[#FEE2E2]">
+                                        <i data-lucide="x-circle" class="w-4 h-4"></i> Kembalikan ke Admin
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     @endif
 
                 </div>
 
-                {{-- ========== KOLOM KANAN (Panel Tindakan Warek) ========== --}}
+                {{-- KOLOM KANAN (Sidebar Dokumen) --}}
                 <div class="space-y-6">
 
-                    {{-- Card: Panel Tindakan --}}
-                    <div class="bg-white border-2 border-[#0F4C81] rounded-xl p-6 shadow-sm">
-                        <h3 class="text-base font-bold text-[#0F4C81] mb-4 flex items-center gap-2">
-                            ⚖️ Tindakan Anda
+                    {{-- Card: Status & Metadata --}}
+                    <div class="card-enterprise-lg p-6">
+                        <h3 class="text-[14px] font-bold text-[#0F172A] mb-5 flex items-center gap-2">
+                            <i data-lucide="activity" class="w-[18px] h-[18px] text-[#4338CA]"></i> Status Saat Ini
                         </h3>
 
-                        {{-- Textarea Catatan --}}
-                        <div class="mb-4">
-                            <label for="catatan_warek" class="block text-sm font-medium text-gray-700 mb-1.5">
-                                Catatan Review
-                            </label>
-                            <textarea id="catatan_warek" name="catatan_warek" rows="4"
-                                      placeholder="Tulis catatan untuk surat ini (wajib diisi jika mengembalikan)..."
-                                      class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"></textarea>
-                            <p id="catatan-error" class="text-red-500 text-xs mt-1 hidden"></p>
-                            @error('catatan_warek')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
+                        <div class="space-y-5">
+                            <div>
+                                <x-badge :type="$suratMasuk->status" />
+                            </div>
+                            
+                            <hr class="border-[#F1F5F9]">
+
+                            <div>
+                                <p class="text-[11px] font-bold text-[#94A3B8] uppercase tracking-wider mb-1">No. Agenda Sistem</p>
+                                <p class="text-[13px] font-mono font-bold text-[#0F172A]">{{ $suratMasuk->nomor_agenda }}</p>
+                            </div>
+
+                            <div>
+                                <p class="text-[11px] font-bold text-[#94A3B8] uppercase tracking-wider mb-1.5">Diregistrasi Oleh Admin</p>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-6 h-6 rounded bg-[#E2E8F0] text-[#475569] flex items-center justify-center text-[10px] font-bold">
+                                        {{ strtoupper(substr($suratMasuk->pembuat->name, 0, 2)) }}
+                                    </div>
+                                    <p class="text-[13px] font-medium text-[#0F172A]">{{ $suratMasuk->pembuat->name }}</p>
+                                </div>
+                            </div>
                         </div>
-
-                        {{-- Tombol: Teruskan ke Rektor --}}
-                        <form method="POST" action="{{ route('warek.surat-masuk.teruskan', $suratMasuk) }}" class="mb-3">
-                            @csrf
-                            @method('PATCH')
-                            <input type="hidden" name="catatan_warek" class="catatan-hidden">
-                            <button type="submit"
-                                    class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-4 py-2.5 rounded-lg transition-colors text-sm flex items-center justify-center gap-2">
-                                ✅ Teruskan ke Rektor
-                            </button>
-                        </form>
-
-                        {{-- Tombol: Kembalikan ke Admin --}}
-                        <form method="POST" action="{{ route('warek.surat-masuk.kembalikan', $suratMasuk) }}" id="form-kembalikan">
-                            @csrf
-                            @method('PATCH')
-                            <input type="hidden" name="catatan_warek" class="catatan-hidden">
-                            <button type="submit"
-                                    class="w-full bg-red-500 hover:bg-red-600 text-white font-medium px-4 py-2.5 rounded-lg transition-colors text-sm flex items-center justify-center gap-2">
-                                ↩️ Kembalikan ke Admin
-                            </button>
-                        </form>
                     </div>
 
-                    {{-- Card: Info Metadata --}}
-                    <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-                        <h3 class="text-base font-semibold text-gray-800 mb-4 border-b border-gray-100 pb-2">ℹ️ Info Surat</h3>
-                        <div class="space-y-3 text-sm">
-                            <div>
-                                <p class="text-xs text-gray-500 uppercase font-medium mb-1">Urgensi</p>
-                                @php
-                                    $urgColors = [
-                                        'normal' => 'bg-gray-100 text-gray-700',
-                                        'segera' => 'bg-amber-100 text-amber-800',
-                                        'sangat_segera' => 'bg-red-100 text-red-800',
-                                    ];
-                                @endphp
-                                <span class="px-2.5 py-1 rounded-full text-xs font-medium {{ $urgColors[$suratMasuk->tingkat_urgensi] ?? '' }}">
-                                    {{ str_replace('_', ' ', ucfirst($suratMasuk->tingkat_urgensi)) }}
-                                </span>
+                    {{-- Card: Dokumen Lampiran --}}
+                    <div class="card-enterprise-lg p-6">
+                        <h3 class="text-[14px] font-bold text-[#0F172A] mb-4 flex items-center gap-2">
+                            <i data-lucide="paperclip" class="w-[18px] h-[18px] text-[#4338CA]"></i> Lampiran
+                        </h3>
+
+                        @if($suratMasuk->file_surat)
+                            <div class="bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl p-3 flex items-center gap-3 group hover:border-[#4338CA] hover:bg-[#EEF2FF] transition-all cursor-pointer"
+                                 onclick="window.open('{{ Storage::url($suratMasuk->file_surat) }}', '_blank')">
+                                <div class="p-2.5 bg-white border border-[#E2E8F0] rounded-lg group-hover:border-[#C7D2FE] group-hover:text-[#4338CA] transition-colors shrink-0">
+                                    <i data-lucide="file-text" class="w-5 h-5"></i>
+                                </div>
+                                <div class="flex-1 overflow-hidden">
+                                    <p class="text-[13px] font-semibold text-[#0F172A] truncate group-hover:text-[#4338CA] transition-colors">{{ basename($suratMasuk->file_surat) }}</p>
+                                    <p class="text-[11px] text-[#64748B]">Klik untuk melihat file</p>
+                                </div>
+                                <i data-lucide="external-link" class="w-4 h-4 text-[#94A3B8] group-hover:text-[#4338CA] shrink-0 mr-1"></i>
                             </div>
-                            <div>
-                                <p class="text-xs text-gray-500 uppercase font-medium mb-1">Diinput oleh</p>
-                                <p class="font-medium text-gray-800">{{ $suratMasuk->pembuat->name }}</p>
+                        @else
+                            <div class="text-center py-6 border-2 border-dashed border-[#E2E8F0] rounded-xl bg-[#F8FAFC]">
+                                <i data-lucide="file-x" class="w-8 h-8 text-[#94A3B8] mx-auto mb-2"></i>
+                                <p class="text-[13px] font-medium text-[#64748B]">Tidak ada lampiran</p>
                             </div>
-                            <div>
-                                <p class="text-xs text-gray-500 uppercase font-medium mb-1">Tgl Diterima</p>
-                                <p class="text-gray-700">{{ $suratMasuk->tanggal_diterima->format('d F Y') }}</p>
-                            </div>
-                        </div>
+                        @endif
                     </div>
 
                 </div>
@@ -156,26 +169,4 @@
 
         </div>
     </div>
-
-    {{-- Script: Sinkronisasi textarea dengan hidden input di kedua form --}}
-    <script>
-        const textarea = document.getElementById('catatan_warek');
-        const hiddenInputs = document.querySelectorAll('.catatan-hidden');
-
-        // Sinkronkan nilai textarea ke semua hidden input
-        textarea.addEventListener('input', function() {
-            hiddenInputs.forEach(input => input.value = this.value);
-        });
-
-        // Validasi: catatan wajib diisi jika klik "Kembalikan"
-        document.getElementById('form-kembalikan').addEventListener('submit', function(e) {
-            if (textarea.value.trim().length < 10) {
-                e.preventDefault();
-                const errorEl = document.getElementById('catatan-error');
-                errorEl.textContent = 'Catatan wajib diisi minimal 10 karakter saat mengembalikan surat.';
-                errorEl.classList.remove('hidden');
-                textarea.focus();
-            }
-        });
-    </script>
 </x-app-layout>

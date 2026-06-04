@@ -1,0 +1,46 @@
+MEETING NOTES - PENGEMBANGAN LANJUTAN SISURAT (UNIVERSITAS ALIFAH)
+Tanggal: 4 Juni 2026
+Agenda: Evaluasi Sistem Saat Ini & Rencana Pengembangan Fase Selanjutnya
+
+==================================================
+1. GAMBARAN PROJEK SAAT INI (STATUS UPDATE)
+==================================================
+- Frontend Redesign (V2): UI/UX untuk modul "Surat Masuk" telah selesai dirombak total dengan kualitas Enterprise yang menawan.
+- Halaman Login: Telah mengadaptasi layout Split Screen persis seperti standar modern (referensi Soniva).
+- Backend (Core Logic): Alur berjenjang Surat Masuk sudah berfungsi (Admin -> Review Warek -> Persetujuan Rektor -> Disposisi Bagian).
+
+==================================================
+2. PERTANYAAN TERKAIT DATA DUMMY & FITUR
+==================================================
+Ada beberapa elemen dalam aplikasi yang saat ini masih berupa dummy/statis yang perlu kita diskusikan untuk implementasi nyatanya:
+- Manajemen Pengguna: Apakah akun untuk para "Bagian" (penerima disposisi) akan dibuatkan agar mereka bisa login dan melihat surat yang didisposisikan kepada mereka?
+- Lampiran Surat: Saat ini upload file baru sekadar masuk ke storage lokal. Apakah ada kebijakan khusus mengenai keamanan dan retensi dokumen?
+- Sistem Notifikasi & Email Kampus: 
+  > Apakah Universitas Alifah memiliki akses SMTP (email kampus resmi @alifah.ac.id)?
+  > Apakah kita perlu membuat fitur agar sistem otomatis mengirim email notifikasi setiap kali ada surat masuk yang butuh review Rektor/Warek?
+
+==================================================
+3. RENCANA DEPLOYMENT & INFRASTRUKTUR
+==================================================
+Terkait rilis ke tahap produksi, ada beberapa hal teknis yang harus disepakati:
+- Server / Hosting: Aplikasi ini akan di-deploy di mana? Apakah di VPS (Virtual Private Server), On-Premise (Server fisik di kampus), atau cPanel biasa?
+- Domain: Apakah menggunakan subdomain khusus (misalnya: sisurat.alifah.ac.id)?
+- Durasi Pengerjaan Selanjutnya: Berapa lama waktu (timeline/sprint) yang kita sepakati untuk menyelesaikan fitur Surat Keluar dan persiapan deployment?
+
+==================================================
+4. GAMBARAN ALUR SURAT KELUAR (OUTGOING LETTERS)
+==================================================
+Agar sejalan dan seragam dengan alur Surat Masuk, berikut usulan gambaran alur untuk "Surat Keluar":
+
+a. DRAFTING (Admin / Staf)
+   - Admin membuat entri Surat Keluar (Tujuan, Perihal, Jenis Surat) dan mengunggah draft dokumen.
+b. PARAF & KOREKSI (Wakil Rektor)
+   - Draft masuk ke antrean Warek. Warek mengecek keabsahan redaksi surat. 
+   - Jika salah: Dikembalikan ke Admin untuk revisi.
+   - Jika benar: Di-paraf (secara sistem) dan diteruskan ke Rektor.
+c. TANDA TANGAN / PENGESAHAN (Rektor)
+   - Rektor meninjau draf akhir.
+   - Jika disetujui, Rektor memberikan ACC. (Bisa dikembangkan menjadi Tanda Tangan Elektronik / QRCode jika dibutuhkan).
+d. REGISTER & PENGIRIMAN (Admin)
+   - Surat yang sudah di-ACC Rektor turun kembali ke Admin.
+   - Admin mencetak, memberi stempel basah (jika manual), menginput Nomor Surat Resmi, dan mendistribusikan surat tersebut. Status menjadi "Terkirim/Arsip".
